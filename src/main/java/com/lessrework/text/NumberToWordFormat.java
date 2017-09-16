@@ -3,6 +3,7 @@ package com.lessrework.text;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,47 +11,51 @@ import java.util.Map;
  * Created by acordova05 on 9/15/17.
  */
 public class NumberToWordFormat extends Format {
-    private static final Map<Long, String> hundredsFormatted = new HashMap();
-    private static final Map<Long, String> powersOfTenFormatted = new HashMap();
+    private static final Map<Long, String> hundredsFormatted;
+    private static final Map<Long, String> powersOfTenFormatted;
     public static final String WORD_SEPARATOR = " ";
     public static final String HUNDRED_SEPARATOR = " and ";
 
     static {
-        hundredsFormatted.put(0L, "zero");
-        hundredsFormatted.put(1L, "one");
-        hundredsFormatted.put(2L, "two");
-        hundredsFormatted.put(3L, "three");
-        hundredsFormatted.put(4L, "four");
-        hundredsFormatted.put(5L, "five");
-        hundredsFormatted.put(6L, "six");
-        hundredsFormatted.put(7L, "seven");
-        hundredsFormatted.put(8L, "eight");
-        hundredsFormatted.put(9L, "nine");
-        hundredsFormatted.put(10L, "ten");
-        hundredsFormatted.put(11L, "eleven");
-        hundredsFormatted.put(12L, "twelve");
-        hundredsFormatted.put(13L, "thirteen");
-        hundredsFormatted.put(14L, "fourteen");
-        hundredsFormatted.put(15L, "fifteen");
-        hundredsFormatted.put(16L, "sixteen");
-        hundredsFormatted.put(17L, "seventeen");
-        hundredsFormatted.put(18L, "eighteen");
-        hundredsFormatted.put(19L, "nineteen");
-        hundredsFormatted.put(20L, "twenty");
-        hundredsFormatted.put(30L, "thirty");
-        hundredsFormatted.put(40L, "forty");
-        hundredsFormatted.put(50L, "fifty");
-        hundredsFormatted.put(60L, "sixty");
-        hundredsFormatted.put(70L, "seventy");
-        hundredsFormatted.put(80L, "eighty");
-        hundredsFormatted.put(90L, "ninety");
+        Map<Long, String> hundreds = new HashMap<>();
+        hundreds.put(0L, "zero");
+        hundreds.put(1L, "one");
+        hundreds.put(2L, "two");
+        hundreds.put(3L, "three");
+        hundreds.put(4L, "four");
+        hundreds.put(5L, "five");
+        hundreds.put(6L, "six");
+        hundreds.put(7L, "seven");
+        hundreds.put(8L, "eight");
+        hundreds.put(9L, "nine");
+        hundreds.put(10L, "ten");
+        hundreds.put(11L, "eleven");
+        hundreds.put(12L, "twelve");
+        hundreds.put(13L, "thirteen");
+        hundreds.put(14L, "fourteen");
+        hundreds.put(15L, "fifteen");
+        hundreds.put(16L, "sixteen");
+        hundreds.put(17L, "seventeen");
+        hundreds.put(18L, "eighteen");
+        hundreds.put(19L, "nineteen");
+        hundreds.put(20L, "twenty");
+        hundreds.put(30L, "thirty");
+        hundreds.put(40L, "forty");
+        hundreds.put(50L, "fifty");
+        hundreds.put(60L, "sixty");
+        hundreds.put(70L, "seventy");
+        hundreds.put(80L, "eighty");
+        hundreds.put(90L, "ninety");
+        hundredsFormatted = Collections.unmodifiableMap(hundreds);
 
-        powersOfTenFormatted.put(3L, "thousand");
-        powersOfTenFormatted.put(6L, "million");
-        powersOfTenFormatted.put(9L, "billion");
-        powersOfTenFormatted.put(12L, "trillion");
-        powersOfTenFormatted.put(15L, "quadrillion");
-        powersOfTenFormatted.put(18L, "quintillion");
+        HashMap<Long, String> powersOfTen = new HashMap<>();
+        powersOfTen.put(3L, "thousand");
+        powersOfTen.put(6L, "million");
+        powersOfTen.put(9L, "billion");
+        powersOfTen.put(12L, "trillion");
+        powersOfTen.put(15L, "quadrillion");
+        powersOfTen.put(18L, "quintillion");
+        powersOfTenFormatted = Collections.unmodifiableMap(powersOfTen);
     }
 
     @Override

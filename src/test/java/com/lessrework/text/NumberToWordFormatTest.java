@@ -28,6 +28,23 @@ public class NumberToWordFormatTest {
         assertThrows(UnsupportedOperationException.class, () -> formatter.parseObject(null, null));
     }
 
+    @Test
+    void testNoopForNonNumber() {
+        StringBuffer buffer = new StringBuffer();
+        formatter.format("Hello", buffer, null);
+
+        assertEquals("", buffer.toString());
+    }
+
+    @DisplayName("format only supports whole numbers")
+    @Test
+    void testWholeNumbersSupport() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            StringBuffer buffer = new StringBuffer();
+            formatter.format(-1, buffer, null);
+        });
+    }
+
     @ParameterizedTest
     @MethodSource("upToTwentiesProvider")
     void testFormatValuesUpToTwenty(long valueToFormat, String expected) {
