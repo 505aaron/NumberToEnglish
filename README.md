@@ -15,7 +15,7 @@ To consume this library see the project page here.
 `mvn clean compile assembly:single`
 
 ### Run the CLI
-`jar -jar target/NumberToEnglish-1.0-SNAPSHOT-jar-with-dependencies.jar -v 10000`
+`java -jar target/NumberToEnglish-1.0-SNAPSHOT-jar-with-dependencies.jar -v 10000`
 
 ## Sonar
 
