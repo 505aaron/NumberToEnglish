@@ -154,16 +154,18 @@ public class NumberToWordFormat extends Format {
         return bufferToAppendTo;
     }
 
-    private StringBuffer formatHundredsPart(final StringBuffer buffer, final long value, boolean firstEntry) {
+    private StringBuffer formatHundredsPart(final StringBuffer buffer, final long value, final boolean firstEntry) {
             long hundredsPart = 0;
-            boolean appendAnd = false;
             Separator nextSeparator = Separator.NONE;
+
+            boolean capitalize = firstEntry;
+
             if (value >= 100) {
                 hundredsPart = value / 100;
-                buffer.append(capitalizeWord(formatHundredsValue(hundredsPart), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(hundredsPart), capitalize));
                 buffer.append(Separator.HUNDRED);
-                
-                firstEntry = false;
+
+                capitalize = false;
                 nextSeparator = Separator.AND;
             }
             
@@ -173,20 +175,20 @@ public class NumberToWordFormat extends Format {
 
                 buffer.append(nextSeparator);
 
-                buffer.append(capitalizeWord(formatHundredsValue(teenPart), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(teenPart), capitalize));
                 nextSeparator = Separator.WORD;
 
-                firstEntry = false;
+                capitalize = false;
 
                 long digitValue = teenValue - teenPart;
                 if (digitValue != 0) {
                     buffer.append(nextSeparator);
-                    buffer.append(capitalizeWord(formatHundredsValue(digitValue), firstEntry));
+                    buffer.append(capitalizeWord(formatHundredsValue(digitValue), capitalize));
                 }
             } else if (teenValue > 0){
                 buffer.append(nextSeparator);
 
-                buffer.append(capitalizeWord(formatHundredsValue(teenValue), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(teenValue), capitalize));
             }
 
             return buffer;

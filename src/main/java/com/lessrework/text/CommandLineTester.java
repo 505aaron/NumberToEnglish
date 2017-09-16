@@ -4,11 +4,11 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
+import java.io.PrintStream;
 import java.time.Duration;
 import java.time.Instant;
 
 public class CommandLineTester {
-
     @Parameter(names = {"--value", "-v"}, description = "The value to format.", required = true)
     private Long value = null;
 
