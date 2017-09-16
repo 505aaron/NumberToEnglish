@@ -27,8 +27,6 @@ import java.util.Map;
 public class NumberToWordFormat extends Format {
     private static final Map<Integer, String> hundredsFormatted;
     private static final Map<Integer, String> powersOfTenFormatted;
-    private static final String WORD_SEPARATOR = " ";
-    private static final String HUNDRED_SEPARATOR = " and ";
 
     static {
         Map<Integer, String> hundreds = new HashMap<>();
@@ -121,11 +119,11 @@ public class NumberToWordFormat extends Format {
 
         long currentValue = formatValue;
         int powersOfTen = (int)Math.log10(currentValue);
+        Separator nextSeparator = Separator.NONE;
 
         while (powersOfTen >= 2) {
             int exponent = powersOfTen;
             int hundredsPart = powersOfTen % 3;
-
             if (hundredsPart > 0) {
                 exponent = powersOfTen - hundredsPart;
             }
@@ -133,20 +131,23 @@ public class NumberToWordFormat extends Format {
             long factorOfTen = (long) Math.pow(10.0, (double) exponent);
             long currentHundreds = currentValue / factorOfTen;
 
+            bufferToAppendTo.append(nextSeparator);
+            nextSeparator = Separator.NONE;
             formatHundredsPart(bufferToAppendTo, currentHundreds, firstEntry);
             firstEntry = false;
 
-            if (exponent > 1) {
-                bufferToAppendTo.append(WORD_SEPARATOR);
-                bufferToAppendTo.append(formatBaseTen(exponent));
-                bufferToAppendTo.append(WORD_SEPARATOR);
-            }
-
             currentValue -= currentHundreds * factorOfTen;
             powersOfTen = (int)Math.log10(currentValue);
+
+            if (exponent > 1) {
+                bufferToAppendTo.append(Separator.WORD);
+                bufferToAppendTo.append(formatBaseTen(exponent));
+                nextSeparator = powersOfTen < 2 ? Separator.AND : Separator.WORD;
+            }
         }
 
         if (currentValue > 0) {
+            bufferToAppendTo.append(nextSeparator);
             return formatHundredsPart(bufferToAppendTo, currentValue, firstEntry);
         }
 
@@ -154,29 +155,27 @@ public class NumberToWordFormat extends Format {
     }
 
     private StringBuffer formatHundredsPart(final StringBuffer buffer, final long value, boolean firstEntry) {
-
             long hundredsPart = 0;
             boolean appendAnd = false;
+            Separator nextSeparator = Separator.NONE;
             if (value >= 100) {
                 hundredsPart = value / 100;
                 buffer.append(capitalizeWord(formatHundredsValue(hundredsPart), firstEntry));
-                buffer.append(" hundred");
-
-
+                buffer.append(Separator.HUNDRED);
+                
                 firstEntry = false;
-                appendAnd = true;
+                nextSeparator = Separator.AND;
             }
             
             long teenValue = value - hundredsPart * 100;
             if (teenValue > 20) {
                 long teenPart = (teenValue / 10) * 10; // Maps correctly for thirty, forty, etc.
 
-                if (appendAnd) {
-                    buffer.append(HUNDRED_SEPARATOR);
-                }
+                buffer.append(nextSeparator);
+                nextSeparator = Separator.NONE;
 
                 buffer.append(capitalizeWord(formatHundredsValue(teenPart), firstEntry));
-                buffer.append(WORD_SEPARATOR);
+                buffer.append(Separator.WORD);
 
                 firstEntry = false;
 
@@ -185,9 +184,7 @@ public class NumberToWordFormat extends Format {
                     buffer.append(capitalizeWord(formatHundredsValue(digitValue), firstEntry));
                 }
             } else if (teenValue > 0){
-                if (appendAnd) {
-                    buffer.append(HUNDRED_SEPARATOR);
-                }
+                buffer.append(nextSeparator);
 
                 buffer.append(capitalizeWord(formatHundredsValue(teenValue), firstEntry));
             }
@@ -209,5 +206,23 @@ public class NumberToWordFormat extends Format {
         }
 
         return value;
+    }
+
+    private enum Separator {
+        NONE(""),
+        WORD(" "),
+        AND(" and "),
+        HUNDRED(" hundred");
+
+        private final String separatorText;
+
+        private Separator(String separatorText) {
+            this.separatorText = separatorText;
+        }
+
+        @Override
+        public String toString() {
+            return this.separatorText;
+        }
     }
 }

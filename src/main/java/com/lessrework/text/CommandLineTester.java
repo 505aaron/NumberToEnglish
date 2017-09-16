@@ -32,7 +32,7 @@ public class CommandLineTester {
         NumberToWordFormat format = new NumberToWordFormat();
         StringBuffer buffer = new StringBuffer();
         format.format(options.value, buffer, null);
-        System.out.printf("%,d,'%s'%n", options.value, buffer.toString());
+        System.out.printf("%,d='%s'%n", options.value, buffer.toString());
 
         Instant end = Instant.now();
 
