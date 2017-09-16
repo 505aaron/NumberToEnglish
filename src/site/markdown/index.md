@@ -1,3 +1,3 @@
-# numberformat
+# Number To English Format
 
-Add information for end-users here.
+A library that supports numeric value formatting to english words.

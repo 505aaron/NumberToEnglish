@@ -4,8 +4,18 @@ A library that supports numeric value formatting to english words.
 
 To consume this library see the project page here.
 
+[https://505aaron.github.io/NumberToEnglish](https://505aaron.github.io/NumberToEnglish/index.html)
+
 ## Building
 `mvn clean install`
+
+## CLI Tester
+
+### Build a single JAR
+`mvn clean compile assembly:single`
+
+### Run the CLI
+`jar -jar target/NumberToEnglish-1.0-SNAPSHOT-jar-with-dependencies.jar -v 10000`
 
 ## Sonar
 
@@ -16,12 +26,12 @@ Ensure that your local maven settings are configured to your sonar server.
 
 ## Build Documentation Site
 
-`mvn package site`
+`mvn clean`
 
-## CLI Tester
+`git worktree add -B gh-pages site origin/gh-pages`
 
-### Build a single JAR
-`mvn clean compile assembly:single`
+`mvn package site && \cp -rf target/site .`
 
-### Run the CLI
-`jar -jar target/NumberToEnglish-1.0-SNAPSHOT-jar-with-dependencies.jar -v 10000`
+`cd site && git add --all && git commit -nm "Publishing to gh-pages" && cd ..`
+
+`git push origin gh-pages`

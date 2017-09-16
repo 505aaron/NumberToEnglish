@@ -5,9 +5,28 @@
     <groupId>com.lessrework</groupId>
     <artifactId>NumberToEnglish</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <url>https://github.com/505aaron/NumberToEnglish</url>
+    
 
     <name>NumberToEnglish</name>
     <description>A framework for converting number types to english strings.</description>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://github.com/505aaron/NumberToEnglish/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <email>acordova05@gmail.com</email>
+            <name>Aaron Cordova</name>
+            <url>https://github.com/505aaron</url>
+            <id>505aaron</id>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
