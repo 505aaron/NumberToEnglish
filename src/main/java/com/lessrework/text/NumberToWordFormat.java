@@ -11,50 +11,50 @@ import java.util.Map;
  * Created by acordova05 on 9/15/17.
  */
 public class NumberToWordFormat extends Format {
-    private static final Map<Long, String> hundredsFormatted;
-    private static final Map<Long, String> powersOfTenFormatted;
+    private static final Map<Integer, String> hundredsFormatted;
+    private static final Map<Integer, String> powersOfTenFormatted;
     public static final String WORD_SEPARATOR = " ";
     public static final String HUNDRED_SEPARATOR = " and ";
 
     static {
-        Map<Long, String> hundreds = new HashMap<>();
-        hundreds.put(0L, "zero");
-        hundreds.put(1L, "one");
-        hundreds.put(2L, "two");
-        hundreds.put(3L, "three");
-        hundreds.put(4L, "four");
-        hundreds.put(5L, "five");
-        hundreds.put(6L, "six");
-        hundreds.put(7L, "seven");
-        hundreds.put(8L, "eight");
-        hundreds.put(9L, "nine");
-        hundreds.put(10L, "ten");
-        hundreds.put(11L, "eleven");
-        hundreds.put(12L, "twelve");
-        hundreds.put(13L, "thirteen");
-        hundreds.put(14L, "fourteen");
-        hundreds.put(15L, "fifteen");
-        hundreds.put(16L, "sixteen");
-        hundreds.put(17L, "seventeen");
-        hundreds.put(18L, "eighteen");
-        hundreds.put(19L, "nineteen");
-        hundreds.put(20L, "twenty");
-        hundreds.put(30L, "thirty");
-        hundreds.put(40L, "forty");
-        hundreds.put(50L, "fifty");
-        hundreds.put(60L, "sixty");
-        hundreds.put(70L, "seventy");
-        hundreds.put(80L, "eighty");
-        hundreds.put(90L, "ninety");
+        Map<Integer, String> hundreds = new HashMap<>();
+        hundreds.put(0, "zero");
+        hundreds.put(1, "one");
+        hundreds.put(2, "two");
+        hundreds.put(3, "three");
+        hundreds.put(4, "four");
+        hundreds.put(5, "five");
+        hundreds.put(6, "six");
+        hundreds.put(7, "seven");
+        hundreds.put(8, "eight");
+        hundreds.put(9, "nine");
+        hundreds.put(10, "ten");
+        hundreds.put(11, "eleven");
+        hundreds.put(12, "twelve");
+        hundreds.put(13, "thirteen");
+        hundreds.put(14, "fourteen");
+        hundreds.put(15, "fifteen");
+        hundreds.put(16, "sixteen");
+        hundreds.put(17, "seventeen");
+        hundreds.put(18, "eighteen");
+        hundreds.put(19, "nineteen");
+        hundreds.put(20, "twenty");
+        hundreds.put(30, "thirty");
+        hundreds.put(40, "forty");
+        hundreds.put(50, "fifty");
+        hundreds.put(60, "sixty");
+        hundreds.put(70, "seventy");
+        hundreds.put(80, "eighty");
+        hundreds.put(90, "ninety");
         hundredsFormatted = Collections.unmodifiableMap(hundreds);
 
-        HashMap<Long, String> powersOfTen = new HashMap<>();
-        powersOfTen.put(3L, "thousand");
-        powersOfTen.put(6L, "million");
-        powersOfTen.put(9L, "billion");
-        powersOfTen.put(12L, "trillion");
-        powersOfTen.put(15L, "quadrillion");
-        powersOfTen.put(18L, "quintillion");
+        HashMap<Integer, String> powersOfTen = new HashMap<>();
+        powersOfTen.put(3, "thousand");
+        powersOfTen.put(6, "million");
+        powersOfTen.put(9, "billion");
+        powersOfTen.put(12, "trillion");
+        powersOfTen.put(15, "quadrillion");
+        powersOfTen.put(18, "quintillion");
         powersOfTenFormatted = Collections.unmodifiableMap(powersOfTen);
     }
 
@@ -89,7 +89,7 @@ public class NumberToWordFormat extends Format {
         boolean firstEntry = true;
 
         if (formatValue == 0) {
-            return bufferToAppendTo.append(capitalizeWord(hundredsFormatted.get(0L), true));
+            return bufferToAppendTo.append(capitalizeWord(formatHundredsValue(0L), true));
         }
 
         long currentValue = formatValue;
@@ -132,7 +132,7 @@ public class NumberToWordFormat extends Format {
             boolean appendAnd = false;
             if (value >= 100) {
                 hundredsPart = value / 100;
-                buffer.append(capitalizeWord(hundredsFormatted.get(hundredsPart), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(hundredsPart), firstEntry));
                 buffer.append(" hundred");
 
 
@@ -148,28 +148,32 @@ public class NumberToWordFormat extends Format {
                     buffer.append(HUNDRED_SEPARATOR);
                 }
 
-                buffer.append(capitalizeWord(hundredsFormatted.get(teenPart), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(teenPart), firstEntry));
                 buffer.append(WORD_SEPARATOR);
 
                 firstEntry = false;
 
                 long digitValue = teenValue - teenPart;
                 if (digitValue != 0) {
-                    buffer.append(capitalizeWord(hundredsFormatted.get(digitValue), firstEntry));
+                    buffer.append(capitalizeWord(formatHundredsValue(digitValue), firstEntry));
                 }
             } else if (teenValue > 0){
                 if (appendAnd) {
                     buffer.append(HUNDRED_SEPARATOR);
                 }
 
-                buffer.append(capitalizeWord(hundredsFormatted.get(teenValue), firstEntry));
+                buffer.append(capitalizeWord(formatHundredsValue(teenValue), firstEntry));
             }
 
             return buffer;
     }
 
+    private String formatHundredsValue(long teenValue) {
+        return hundredsFormatted.get((int)teenValue);
+    }
+
     private String formatBaseTen(long baseTen) {
-        return powersOfTenFormatted.getOrDefault(baseTen, "ERROR");
+        return powersOfTenFormatted.getOrDefault((int)baseTen, "ERROR");
     }
 
     private String capitalizeWord(String value, boolean shouldCapitalize) {
