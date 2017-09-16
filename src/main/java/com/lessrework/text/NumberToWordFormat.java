@@ -8,13 +8,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by acordova05 on 9/15/17.
+ * <p>NumberToWordFormat allows formatting of whole numbers to their English word equivalent.</p>
+ *
+ * <p>
+ * <b>Example</b>
+ * </p>
+ * <pre>
+ * {@code
+ *  NumberToWordFormat formatter = new NumberToWordFormat();
+ *
+ *  StringBuffer buffer = new StringBuffer();
+ *  buffer = format.format(201, buffer, null);
+ *  System.out.println(buffer.toString());
+ *  // Outputs Two hundred and one.
+ * }
+ * </pre>
  */
 public class NumberToWordFormat extends Format {
     private static final Map<Integer, String> hundredsFormatted;
     private static final Map<Integer, String> powersOfTenFormatted;
-    public static final String WORD_SEPARATOR = " ";
-    public static final String HUNDRED_SEPARATOR = " and ";
+    private static final String WORD_SEPARATOR = " ";
+    private static final String HUNDRED_SEPARATOR = " and ";
 
     static {
         Map<Integer, String> hundreds = new HashMap<>();
@@ -58,8 +72,21 @@ public class NumberToWordFormat extends Format {
         powersOfTenFormatted = Collections.unmodifiableMap(powersOfTen);
     }
 
+    /**
+     * Formats whole number types according to english words.
+     *
+     * @param valueToFormat The value to format.
+     * @param toAppendTo The {@link StringBuffer} to which the formatted text is to be appended.
+     * @param pos {@link FieldPosition} is currently unused.
+     * @return The value in as toAppendTo.
+     * @throws NullPointerException if toAppendTo is null.
+     */
     @Override
     public StringBuffer format(Object valueToFormat, StringBuffer toAppendTo, FieldPosition pos) {
+        if (toAppendTo == null) {
+            throw new NullPointerException("toAppendTo cannot be null");
+        }
+
         if (valueToFormat instanceof Number) {
             return formatLong(((Number) valueToFormat).longValue(), toAppendTo);
         }
@@ -70,11 +97,11 @@ public class NumberToWordFormat extends Format {
     /**
      * Parses the string value.
      * <b>This operation is not supported</b>
-     * 
-     * @throws UnsupportedOperationException This operation is not supported.
+     *
      * @param source The source to parse.
      * @param pos The parse position.
      * @return The parsed object.
+     * @throws UnsupportedOperationException This operation is not supported.
      */
     @Override
     public Object parseObject(String source, ParsePosition pos) {
@@ -83,7 +110,7 @@ public class NumberToWordFormat extends Format {
 
     private StringBuffer formatLong(final long formatValue, final StringBuffer bufferToAppendTo) {
         if (formatValue < 0) {
-            throw new UnsupportedOperationException("Number is not part of the whole number set.");
+            throw new UnsupportedOperationException("Only whole numbers are supported");
         }
 
         boolean firstEntry = true;

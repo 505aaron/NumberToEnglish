@@ -29,6 +29,21 @@ public class NumberToWordFormatTest {
     }
 
     @Test
+    void testNpeForNullBuffer() {
+        assertThrows(NullPointerException.class, () -> {
+            formatter.format(null, null, null);
+        });
+    }
+
+    @Test
+    void testNoopForNullFormat() {
+        StringBuffer buffer = new StringBuffer();
+        formatter.format(null, buffer, null);
+
+        assertEquals("", buffer.toString());
+    }
+
+    @Test
     void testNoopForNonNumber() {
         StringBuffer buffer = new StringBuffer();
         formatter.format("Hello", buffer, null);
