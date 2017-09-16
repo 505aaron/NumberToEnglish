@@ -172,15 +172,15 @@ public class NumberToWordFormat extends Format {
                 long teenPart = (teenValue / 10) * 10; // Maps correctly for thirty, forty, etc.
 
                 buffer.append(nextSeparator);
-                nextSeparator = Separator.NONE;
 
                 buffer.append(capitalizeWord(formatHundredsValue(teenPart), firstEntry));
-                buffer.append(Separator.WORD);
+                nextSeparator = Separator.WORD;
 
                 firstEntry = false;
 
                 long digitValue = teenValue - teenPart;
                 if (digitValue != 0) {
+                    buffer.append(nextSeparator);
                     buffer.append(capitalizeWord(formatHundredsValue(digitValue), firstEntry));
                 }
             } else if (teenValue > 0){
